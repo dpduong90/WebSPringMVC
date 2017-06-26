@@ -98,6 +98,7 @@ public class AppController {
 		userService.saveUser(user);
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
+		model.addAttribute("success", "User " + user.getUsername() + " added successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "usersList";
 	}

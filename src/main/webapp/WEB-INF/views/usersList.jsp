@@ -21,7 +21,19 @@
                    <div class="title-block">
                        <h1 class="title"> Account management </h1>
                    </div>
+					<div class="row">
+						<div class="col-md-3">
+							<label class="left-modal">User name:</label>
+							<div class="right-modal container-start-date-sql" >
+								<input id="txt-username" class="form-control input-group"  title="From">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<button class="btn btn-success mg-top-30">Search</button>
+						</div>
+					</div>
                    <section class="section">
+
                        <div class="row">
                            <div class="col-md-12">
                                <div class="card">
@@ -73,6 +85,11 @@
 	                       		</div>
 	                       </div>
                        </sec:authorize>
+                       <c:if test="${success != null}">
+							<div class="alert alert-success">
+								<label>${success}</label>
+							</div>
+						</c:if>
                    </section>
                </article>
                
@@ -95,11 +112,7 @@
                    </div>
                    <!-- /.modal-dialog -->
                </div>
-               <c:if test="${success != null}">
-					<div class="alert alert-danger">
-						<label>Invalid username or password.</label>
-					</div>
-				</c:if>
+               
                <!-- /.modal -->
            </div>
        </div>
