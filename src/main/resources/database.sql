@@ -33,11 +33,11 @@ INSERT INTO APP_USER(username, password, first_name, last_name, email, phone, ad
 VALUES ('admin','1234', 'Dam','Duong','duongdp90@gmail.com', '0917787098', '5/9 Binh Dong');
   
 INSERT INTO APP_USER_ROLE (user_id, role_id)
-  SELECT user.id, profile.id FROM app_user user, role profile
+  SELECT user.id, profile.id FROM APP_USER user, ROLE profile
   where user.username='admin' and profile.type='ADMIN';
  
 /* Create persistent_logins Table used to store rememberme related stuff*/
-CREATE TABLE persistent_logins (
+CREATE TABLE PERSISTENT_LOGINS (
     username VARCHAR(64) NOT NULL,
     series VARCHAR(64) NOT NULL,
     token VARCHAR(64) NOT NULL,

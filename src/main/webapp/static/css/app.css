@@ -27,7 +27,10 @@ body {
   color: #4f5f6f;
   overflow-x: hidden; }
 .mg-top-30 {
-  margin-top: 30px !important;
+  margin-top: 32px !important;
+}
+.hidden {
+	display: none !important;
 }
 .main-wrapper {
   width: 100%;

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.model.Role;
@@ -148,11 +148,15 @@ public class AppController {
 	/**
 	 * This method will change user password.
 	 */
-	@RequestMapping(value = { "/change-password" }, method = RequestMethod.POST)
-	@ResponseBody
-	public String changePassowrdUser(@PathVariable("username") String username, @PathVariable("password") String password, ModelMap model) {
-		String msg = userService.changePassword(username, password, password);
-		return msg;
+	@RequestMapping(value = { "/change-password-{username}" }, method = RequestMethod.POST)
+	public String changePassowrdUser(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, @PathVariable String username, ModelMap model) {
+		String msg = userService.changePassword(username, oldPassword, newPassword);
+		System.out.print(msg);
+		List<User> users = userService.findAllUsers();
+		model.addAttribute("users", users);
+		model.addAttribute("success", "Updat password successfully");
+		model.addAttribute("loggedinuser", getPrincipal());
+		return "usersList";
 	}
 
 	/**
@@ -192,8 +196,7 @@ public class AppController {
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null){    
-			//new SecurityContextLogoutHandler().logout(request, response, auth);
+		if (auth != null){
 			persistentTokenBasedRememberMeServices.logout(request, response, auth);
 			SecurityContextHolder.getContext().setAuthentication(null);
 		}
