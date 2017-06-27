@@ -3,6 +3,7 @@ package com.example.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class UserServiceImpl implements UserService {
 	private UserDao dao;
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	public User findById(int id) {
 		return dao.findById(id);
@@ -38,13 +39,15 @@ public class UserServiceImpl implements UserService {
 		User entity = dao.findById(user.getId());
 		if (entity != null) {
 			entity.setUsername(user.getUsername());
-			if (!user.getPassword().equals(entity.getPassword())) {
+			if (!passwordEncoder.matches(user.getPassword(), entity.getPassword())) {
 				entity.setPassword(passwordEncoder.encode(user.getPassword()));
 			}
 			entity.setFirstName(user.getFirstName());
 			entity.setLastName(user.getLastName());
 			entity.setEmail(user.getEmail());
 			entity.setRoles(user.getRoles());
+			entity.setPhone(user.getPhone());
+			entity.setAddress(user.getAddress());
 		}
 	}
 
@@ -65,7 +68,7 @@ public class UserServiceImpl implements UserService {
 	public String changePassword(String username, String oldPassword, String newPassword) {
 		User entity = dao.findByUsername(username);
 		if (entity != null) {
-			if (!oldPassword.equals(entity.getPassword())) {
+			if (!passwordEncoder.matches(oldPassword, entity.getPassword())) {
 				return "Old password wrong! Please try Again";
 			} else {
 				entity.setPassword(passwordEncoder.encode(newPassword));
