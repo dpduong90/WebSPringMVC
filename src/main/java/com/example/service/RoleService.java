@@ -5,7 +5,7 @@ import java.util.List;
 import com.example.model.Role;
 
 
-public interface UserProfileService {
+public interface RoleService {
 
 	Role findById(int id);
 

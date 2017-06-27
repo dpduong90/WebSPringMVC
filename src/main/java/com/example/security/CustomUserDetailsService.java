@@ -3,8 +3,6 @@ package com.example.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,16 +12,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.model.User;
 import com.example.model.Role;
+import com.example.model.User;
 import com.example.service.UserService;
 
 
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{
 
-	static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
-	
 	@Autowired
 	private UserService userService;
 	
@@ -38,7 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService{
 				 true, true, true, true, getGrantedAuthorities(user));
 	}
 
-	
 	private List<GrantedAuthority> getGrantedAuthorities(User user){
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		

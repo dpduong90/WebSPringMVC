@@ -2,7 +2,9 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page isELIgnored="false" %>
+
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,17 +23,20 @@
                    <div class="title-block">
                        <h1 class="title"> Account management </h1>
                    </div>
+                   <c:url var="searchURL" value="/search" />
+                   <form:form method="GET" class="form-horizontal" action="${searchURL}">
 					<div class="row">
-						<div class="col-md-3">
+						<div class="col-md-5">
 							<label class="left-modal">User name:</label>
 							<div class="right-modal container-start-date-sql" >
-								<input id="txt-username" class="form-control input-group"  title="From">
+								<input name="username" id="username" class="form-control input-group"  title="From">
 							</div>
 						</div>
 						<div class="col-md-3">
-							<button class="btn btn-success mg-top-30">Search</button>
+							<input type="submit" class="btn btn-success mg-top-30" value="Search"></input> 
 						</div>
 					</div>
+					</form:form>
                    <section class="section">
 
                        <div class="row">
@@ -54,7 +59,7 @@
 											        
 												</tr>
                                                </thead>
-                                               <tbody>
+                                               <tbody id="user-body">
                                                 <c:forEach items="${users}" var="user">
 													<tr>
 														<td>${user.firstName}</td>
@@ -90,47 +95,20 @@
 								<label>${success}</label>
 							</div>
 						</c:if>
+						<c:if test="${error != null}">
+							<div class="alert alert-danger">
+								<label>${error}</label>
+							</div>
+						</c:if>
                    </section>
                </article>
-               
-               <!-- /.modal -->
-               <div class="modal fade" id="confirm-modal">
-                   <div class="modal-dialog" role="document">
-                       <div class="modal-content">
-                           <div class="modal-header"> 
-                           		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				   					<span aria-hidden="true">&times;</span>
-				   				</button>
-                               <h4 class="modal-title"><i class="fa fa-warning"></i> Alert</h4>
-                           </div>
-                           <div class="modal-body">
-                               <p>Are you sure want to do this?</p>
-                           </div>
-                           <div class="modal-footer"> <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button> <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button> </div>
-                       </div>
-                       <!-- /.modal-content -->
-                   </div>
-                   <!-- /.modal-dialog -->
-               </div>
-               
-               <!-- /.modal -->
            </div>
        </div>
-       
-
-		<!-- Reference block for JS -->
-		<div class="ref" id="ref">
-			<div class="color-primary"></div>
-			<div class="chart">
-				<div class="color-primary"></div>
-				<div class="color-secondary"></div>
-			</div>
-		</div>
+		
 		<!-- Include model -->
 		<%@ include file="changePassword.jsp"%>
 		
 		<script src="<c:url value='/static/js/vendor.js' />"></script>
 		<script src="<c:url value='/static/js/app.js' />"></script>
-		<script src="<c:url value='/static/js/usersList.js' />"></script>
 </body>
 </html>

@@ -10,9 +10,9 @@ import com.example.dao.RoleDao;
 import com.example.model.Role;
 
 
-@Service("userProfileService")
+@Service("roleService")
 @Transactional
-public class UserProfileServiceImpl implements UserProfileService{
+public class RoleServiceImpl implements RoleService{
 	
 	@Autowired
 	RoleDao dao;

@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.model.Role;
 import com.example.model.User;
-import com.example.service.UserProfileService;
+import com.example.service.RoleService;
 import com.example.service.UserService;
 
 
@@ -41,7 +42,7 @@ public class AppController {
 	UserService userService;
 	
 	@Autowired
-	UserProfileService userProfileService;
+	RoleService roleService;
 	
 	@Autowired
 	MessageSource messageSource;
@@ -78,12 +79,10 @@ public class AppController {
 	}
 
 	/**
-	 * This method will be called on form submission, handling POST request for
-	 * saving user in database. It also validates the user input
+	 * This method will be add new user
 	 */
 	@RequestMapping(value = { "/newuser" }, method = RequestMethod.POST)
-	public String saveUser(@Valid User user, BindingResult result,
-			ModelMap model) {
+	public String saveUser(@Valid User user, BindingResult result, ModelMap model) {
 
 		if (result.hasErrors()) {
 			return "addUser";
@@ -117,8 +116,7 @@ public class AppController {
 	}
 	
 	/**
-	 * This method will be called on form submission, handling POST request for
-	 * updating user in database. It also validates the user input
+	 * This method will be called update user
 	 */
 	@RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid User user, BindingResult result,
@@ -151,20 +149,41 @@ public class AppController {
 	@RequestMapping(value = { "/change-password-{username}" }, method = RequestMethod.POST)
 	public String changePassowrdUser(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, @PathVariable String username, ModelMap model) {
 		String msg = userService.changePassword(username, oldPassword, newPassword);
-		System.out.print(msg);
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
-		model.addAttribute("success", "Updat password successfully");
+		if(msg.equals("")) {
+			model.addAttribute("success", "Updat password successfully");
+		}else {
+			model.addAttribute("error", msg);
+		}
+		
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "usersList";
 	}
 
 	/**
-	 * This method will provide UserProfile list to views
+	 * This method will change user password.
+	 */
+	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
+	public String searchUser(@RequestParam("username") String username, ModelMap model) {
+		List<User> users = new ArrayList<>();
+		if(username.trim().equals("")) {
+			users = userService. findAllUsers();
+		} else {
+			User user = userService.findByUsername(username);
+			users.add(user);
+		}
+		model.addAttribute("users", users);
+		model.addAttribute("loggedinuser", getPrincipal());
+		return "usersList";
+	}
+	
+	/**
+	 * This method will provide role list to views
 	 */
 	@ModelAttribute("roles")
 	public List<Role> initializeProfiles() {
-		return userProfileService.findAll();
+		return roleService.findAll();
 	}
 	
 	/**
@@ -191,7 +210,6 @@ public class AppController {
 
 	/**
 	 * This method handles logout requests.
-	 * Toggle the handlers if you are RememberMe functionality is useless in your app.
 	 */
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response){

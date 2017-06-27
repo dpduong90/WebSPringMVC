@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 	public String changePassword(String username, String oldPassword, String newPassword) {
 		User entity = dao.findByUsername(username);
 		if (entity != null) {
-			if (newPassword.equals(entity.getPassword())) {
+			if (!oldPassword.equals(entity.getPassword())) {
 				return "Old password wrong! Please try Again";
 			} else {
 				entity.setPassword(passwordEncoder.encode(newPassword));
