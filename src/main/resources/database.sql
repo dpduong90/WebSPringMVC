@@ -30,7 +30,7 @@ INSERT INTO ROLE (type) VALUES ('USER');
 INSERT INTO ROLE(type) VALUES ('ADMIN');
   
 INSERT INTO APP_USER(username, password, first_name, last_name, email, phone, address)
-VALUES ('admin','1234', 'Dam','Duong','duongdp90@gmail.com', '0917787098', '5/9 Binh Dong');
+VALUES ('admin','$2a$10$qmQQZ8cLsNvl.cNMuZYoouIX/biZ.78BrcP071ZsNpruid/njOr0u', 'Dam','Duong','duongdp90@gmail.com', '0917787098', '5/9 Binh Dong');
   
 INSERT INTO APP_USER_ROLE (user_id, role_id)
   SELECT user.id, profile.id FROM APP_USER user, ROLE profile

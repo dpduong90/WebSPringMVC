@@ -31,4 +31,10 @@ Create table and insert data: run file database.sql in resource folder
 
 Run with Tomcat server.
 
+Login with user Admin:
+```sh
+Username : Admin
+Password: 1234
+```
+
 
