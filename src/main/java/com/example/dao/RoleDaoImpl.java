@@ -18,14 +18,14 @@ public class RoleDaoImpl extends AbstractDao<Integer, Role> implements RoleDao {
 
 	public Role findByType(String type) {
 		Criteria crit = createEntityCriteria();
-		crit.add(Restrictions.eq("type", type));
+		crit.add(Restrictions.eq("type", type)).add(Restrictions.ne("type", "SUPER_ADMIN"));
 		return (Role) crit.uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Role> findAll() {
 		Criteria crit = createEntityCriteria();
-		crit.addOrder(Order.asc("type"));
+		crit.addOrder(Order.asc("type")).add(Restrictions.ne("type", "SUPER_ADMIN"));
 		return (List<Role>) crit.list();
 	}
 

@@ -20,7 +20,7 @@ public class Role implements Serializable {
 	private Integer id;
 
 	@Column(name = "TYPE", length = 15, unique = true, nullable = false)
-	private String type = RoleType.USER.getRoleType();
+	private String type = RoleType.ADMIN.getRoleType();
 
 	public Integer getId() {
 		return id;

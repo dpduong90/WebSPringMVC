@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
 			entity.setRoles(user.getRoles());
 			entity.setPhone(user.getPhone());
 			entity.setAddress(user.getAddress());
+			entity.setUpdate_at(null);
 		}
 	}
 

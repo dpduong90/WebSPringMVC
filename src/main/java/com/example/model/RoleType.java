@@ -3,7 +3,6 @@ package com.example.model;
 import java.io.Serializable;
 
 public enum RoleType implements Serializable{
-	USER("USER"),
 	ADMIN("ADMIN");
 	
 	String roleType;

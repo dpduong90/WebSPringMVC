@@ -53,6 +53,15 @@ public class User implements Serializable{
 	@Column(name="ADDRESS", nullable=false)
 	private String address;
 	
+	@Column(name="CREATER", nullable=false)
+	private String creater;
+	
+	@Column(name="CREATE_AT")
+	private String create_at;
+	
+	@Column(name="UPDATE_AT")
+	private String update_at;
+	
 	@NotEmpty
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "APP_USER_ROLE", 
@@ -124,6 +133,30 @@ public class User implements Serializable{
 		this.address = address;
 	}
 
+	public String getCreater() {
+		return creater;
+	}
+
+	public void setCreater(String creater) {
+		this.creater = creater;
+	}
+
+	public String getCreate_at() {
+		return create_at;
+	}
+
+	public void setCreate_at(String create_at) {
+		this.create_at = create_at;
+	}
+
+	public String getUpdate_at() {
+		return update_at;
+	}
+
+	public void setUpdate_at(String update_at) {
+		this.update_at = update_at;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -167,7 +200,8 @@ public class User implements Serializable{
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password
 				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + "phone=" + phone + "address=" + address + "]";
+				+ ", email=" + email + "phone=" + phone + "address=" + address + "creater=" + creater 
+				+ "create_at=" + create_at + "update_at=" + update_at + "]";
 	}
 
 
