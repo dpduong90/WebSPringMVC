@@ -165,14 +165,10 @@ public class AppController {
 	 * This method will change user password.
 	 */
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
-	public String searchUser(@RequestParam("username") String username, ModelMap model) {
+	public String searchUser(@RequestParam("username") String username, @RequestParam("creater") String creater,
+			@RequestParam("createDate") String createDate, ModelMap model) {
 		List<User> users = new ArrayList<>();
-		if(username.trim().equals("")) {
-			users = userService. findAllUsers();
-		} else {
-			User user = userService.findByUsername(username);
-			users.add(user);
-		}
+		users = userService.findUsers(username, creater, createDate);
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "usersList";

@@ -17,5 +17,6 @@ public interface UserDao {
 	
 	List<User> findAllUsers();
 
+	List<User> findUsers(String username, String creater, String createDate);
 }
 

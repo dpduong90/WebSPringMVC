@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page isELIgnored="false" %>
@@ -12,10 +13,8 @@
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/vendor.css' />" rel="stylesheet"></link>
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
-	<link href="<c:url value='/static/plugin/bootstrap-datepicker/css/bootstrap-datepicker3.min.css' />" rel="stylesheet" media="screen">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="<c:url value='/static/plugin/bootstrap-datepicker/bootstrap-datetimepicker.js' />" charset="UTF-8"></script>
-	<script type="text/javascript" src="<c:url value='/static/plugin/bootstrap-datepicker/locales/bootstrap-datetimepicker.fr.js' />" charset="UTF-8"></script>
+	<link href="<c:url value='/static/plugins/bootstrap-datetimepicker/bootstrap/css/bootstrap.min.css' />" rel="stylesheet" media="screen">
+	<link href="<c:url value='/static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />" rel="stylesheet" media="screen">
 </head>
 <body>
        <div class="main-wrapper">
@@ -42,12 +41,15 @@
 								<input name="creater" id="creater" class="form-control input-group"  title="Creater">
 							</div>
 						</div>
-						<div class="col-md-3">
-				             <label class="left-modal">Create At:</label>
-				              	<div class="right-modal" >
-				                	<input name="createDate" id="createDate" class="form-control"  title="Create Time">
-				            	</div>
-			            </div>
+			            <div class="col-md-3">
+							<label class="left-modal">Creater At:</label>
+							<div class='input-group date' id='datetimepicker'>
+			                    <input type='text' class="form-control" name="createDate" id="createDate"/>
+			                    <span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+			                </div>
+		                </div>
 						<div class="col-md-3">
 							<input type="submit" class="btn btn-success mg-top-30" value="Search"></input> 
 						</div>
@@ -88,8 +90,10 @@
 														<td>${user.phone}</td>
 														<td>${user.address}</td>
 														<td>${user.creater}</td>
-														<td>${user.create_at}</td>
-														<td>${user.update_at}</td>
+														 <c:set var = "createDateSub" value = "${fn:substring(user.create_at, 1, 19)}" />
+														  <c:set var = "updateDateSub" value = "${fn:substring(user.update_at, 1, 19)}" />
+														<td>${createDateSub}</td>
+														<td>${updateDateSub}</td>
 													    <sec:authorize access="hasRole('SUPER_ADMIN')">
 															<td>
 																<a href="<c:url value='/edit-user-${user.username}' />" class="btn btn-success custom-width">Edit</a>
@@ -130,16 +134,21 @@
 		<!-- Include model -->
 		<%@ include file="changePassword.jsp"%>
 		
+		<script type="text/javascript" src="<c:url value='/static/plugins/bootstrap-datetimepicker/jquery/jquery-1.8.3.min.js' />" charset="UTF-8"></script>
+		<script type="text/javascript" src="<c:url value='/static/plugins/bootstrap-datetimepicker/bootstrap/js/bootstrap.min.js' />"></script>
+		<script type="text/javascript" src="<c:url value='/static/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' />" charset="UTF-8"></script>
+		<script type="text/javascript" src="<c:url value='/static/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' />" charset="UTF-8"></script>
 		<script type="text/javascript">
-			$(document).ready(function(){
-				$('#createDate').datepicker({
-			        format: "yyyy-mm-dd",
-			        autoclose: true,
-			        minView: 3
-			    });
+			$("#datetimepicker").datetimepicker({
+				format: "yyyy-mm-dd",
+				autoclose: true,
+				todayBtn: true,
+				minView: 2,
+				pickerPosition: "bottom-left"
 			});
-		</script>
+        </script>
 		<script src="<c:url value='/static/js/vendor.js' />"></script>
 		<script src="<c:url value='/static/js/app.js' />"></script>
+		
 </body>
 </html>

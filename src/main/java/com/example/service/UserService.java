@@ -21,6 +21,8 @@ public interface UserService {
 	
 	List<User> findAllUsers(); 
 	
+	List<User> findUsers(String username, String creater, String createDate);
+	
 	boolean isUserUsernameUnique(Integer id, String username);
 
 }
